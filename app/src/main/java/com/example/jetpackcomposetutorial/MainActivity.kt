@@ -7,7 +7,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.* // ✅ Imports Column, Row, padding, fillMaxSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -32,7 +32,6 @@ class MainActivity : ComponentActivity() {
         setContent {
             JetPackComposeTutorialTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    // ✅ FIX: Pass `modifier` to MessageCard, NOT to Message
                     MessageCard(
                         msg = Message("Android", "Jetpack Compose"),
                         modifier = Modifier.padding(innerPadding)
@@ -43,7 +42,6 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-// ✅ FIX: Remove `modifier` from Message class
 data class Message(val author: String, val body: String)
 
 @Composable
@@ -53,7 +51,7 @@ fun MessageCard(msg: Message, modifier: Modifier = Modifier) {
             .fillMaxWidth()
             .padding(8.dp),
         verticalAlignment = Alignment.CenterVertically
-    ) { // ✅ Add opening `{` here!
+    ) {
 
         Image(
             painter = painterResource(R.drawable.muzi),
@@ -65,14 +63,14 @@ fun MessageCard(msg: Message, modifier: Modifier = Modifier) {
             contentScale = ContentScale.Crop
         )
 
-        Column(modifier = modifier.padding(8.dp)) { // ✅ FIX: Wrap in Column
+        Column(modifier = modifier.padding(8.dp)) {
             Text(text = msg.author)
             Text(text = msg.body)
         }
-    } // ✅ Add closing `}` for Row
+    }
 }
 
-// ✅ Preview Function
+//  Preview Function
 @Preview(showBackground = true)
 @Composable
 fun MessageCardPreview() {
