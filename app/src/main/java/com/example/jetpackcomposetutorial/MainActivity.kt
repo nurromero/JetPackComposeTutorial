@@ -22,7 +22,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.layout.ContentScale
 import com.example.jetpackcomposetutorial.ui.theme.JetPackComposeTutorialTheme
-
+import androidx.compose.material3.Surface
+import android.content.res.Configuration
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,7 +36,7 @@ class MainActivity : ComponentActivity() {
             JetPackComposeTutorialTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     MessageCard(
-                        msg = Message("Android", "Jetpack Compose"),
+                        msg = Message("Android", "Jetpack Compose, Mossaz' App ♡" ),
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
@@ -64,17 +67,61 @@ fun MessageCard(msg: Message, modifier: Modifier = Modifier) {
         )
 
         Column(modifier = modifier.padding(8.dp)) {
-            Text(text = msg.author)
-            Text(text = msg.body)
+            Text(
+                text = msg.author,
+                color = MaterialTheme.colorScheme.secondary,
+                style = MaterialTheme.typography.titleSmall
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+
+            Surface(shape = MaterialTheme.shapes.medium, shadowElevation = 1.dp) {
+                Text(
+                    text = msg.body,
+                    modifier = Modifier.padding(all = 4.dp),
+                    style = MaterialTheme.typography.bodyMedium
+                )
+
+            }
+
         }
     }
 }
+
+@Composable
+fun Conversation(messages: List<Message>) {
+    LazyColumn {
+        items(messages) { message ->
+            MessageCard(message)
+        }
+
+    }
+}
+
+@Preview(name = "Light Mode")
+@Preview(
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    showBackground = true,
+    name = "Dark Mode"
+)
 
 //  Preview Function
 @Preview(showBackground = true)
 @Composable
 fun MessageCardPreview() {
-    MessageCard(
-        msg = Message("Mossaz", "Hey, take a look at Jetpack Compose, it's great!")
-    )
+    JetPackComposeTutorialTheme(
+        darkTheme = true,
+        dynamicColor = false
+    ) {
+        Surface {
+            MessageCard(
+                msg = Message("Mossaz", "Hey, take a look at Jetpack Compose, it's great!")
+            )
+        }
+
+    }
+
 }
+
+
+
+
